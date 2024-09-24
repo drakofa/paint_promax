@@ -18,3 +18,13 @@ C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintPro
 C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.csproj.CoreCompileInputs.cache
 C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.exe
 C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.pdb
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\bin\Debug\PaintProMax.exe.config
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\bin\Debug\PaintProMax.exe
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\bin\Debug\PaintProMax.pdb
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.csproj.AssemblyReference.cache
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.Form1.resources
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.Properties.Resources.resources
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.csproj.GenerateResource.cache
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.csproj.CoreCompileInputs.cache
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.exe
+D:\repo\paint_promax\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.pdb
