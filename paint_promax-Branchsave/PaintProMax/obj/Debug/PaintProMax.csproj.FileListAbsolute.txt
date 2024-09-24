@@ -1,0 +1,20 @@
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\bin\Debug\PaintProMax.exe.config
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\bin\Debug\PaintProMax.exe
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\bin\Debug\PaintProMax.pdb
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\obj\Debug\PaintProMax.csproj.AssemblyReference.cache
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\obj\Debug\PaintProMax.Form1.resources
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\obj\Debug\PaintProMax.Properties.Resources.resources
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\obj\Debug\PaintProMax.csproj.GenerateResource.cache
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\obj\Debug\PaintProMax.csproj.CoreCompileInputs.cache
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\obj\Debug\PaintProMax.exe
+C:\Users\nik-m\source\repos\PaintProMax\PaintProMax\obj\Debug\PaintProMax.pdb
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\bin\Debug\PaintProMax.exe.config
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\bin\Debug\PaintProMax.exe
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\bin\Debug\PaintProMax.pdb
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.csproj.AssemblyReference.cache
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.Form1.resources
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.Properties.Resources.resources
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.csproj.GenerateResource.cache
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.csproj.CoreCompileInputs.cache
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.exe
+C:\Users\nguly\OneDrive\Рабочий стол\paint_promax-Branchsave\PaintProMax\obj\Debug\PaintProMax.pdb
