@@ -281,7 +281,7 @@ namespace PaintProMax
             // создаем объект BinaryFormatter
             BinaryFormatter formatter = new BinaryFormatter();
             // получаем поток, куда будем записывать сериализованный объект
-            using (FileStream fs = new FileStream("Complex1.bmp", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("Save.bin", FileMode.OpenOrCreate))
             {
                 formatter.Serialize(fs, lines);
                 formatter.Serialize(fs, rectangles);
@@ -298,15 +298,37 @@ namespace PaintProMax
 
         private void button7_Click(object sender, EventArgs e)
         {
-            
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Bitmaps|*.bmp|jpeps|*.jpg";
-            PictureBox PictureBox1 = new PictureBox();
+            openFileDialog.Filter = "Serialized Files|*.bin"; // Измените фильтр, если у вас другой формат
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                PictureBox1.Image = Bitmap.FromFile(openFileDialog.FileName);
-                g = Graphics.FromImage(PictureBox1.Image);
-                PictureBox1.Refresh();
+                // создаем объект BinaryFormatter
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                // открываем поток для чтения
+                using (FileStream fs = new FileStream(openFileDialog.FileName, FileMode.Open))
+                {
+                    try
+                    {
+                        // Очищаем текущие списки
+                        lines.Clear();
+                        rectangles.Clear();
+                        сircles.Clear();
+
+                        // Десериализуем объекты обратно в списки
+                        lines = (List<Line>)formatter.Deserialize(fs);
+                        rectangles = (List<Rectangle>)formatter.Deserialize(fs);
+                        сircles = (List<Сircle>)formatter.Deserialize(fs);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error while loading the file: " + ex.Message);
+                    }
+                }
+
+                // Перерисовываем форму
+                this.Invalidate();
             }
 
         }
