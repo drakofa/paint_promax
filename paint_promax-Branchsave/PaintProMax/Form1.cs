@@ -18,6 +18,7 @@ namespace PaintProMax
         private Graphics g;
         private Point lastPosition;
         private List<Line> lines = new List<Line>();
+        private List<Line> Clines = new List<Line>();
         private List<Rectangle> rectangles = new List<Rectangle>();
         private List<Сircle> сircles = new List<Сircle>();
 
@@ -57,7 +58,7 @@ namespace PaintProMax
                     Y2,
                     Global_Color);
 
-                lines.Add(line);
+                Clines.Add(line);
 
                 lastPosition = ty;
 
@@ -226,6 +227,11 @@ namespace PaintProMax
                 line.Draw(e.Graphics);
                 i++;
             }
+            foreach (var line in Clines)
+            {
+                line.Draw(e.Graphics);
+                i++;
+            }
 
             foreach (var rectangle in rectangles)
             {
@@ -281,9 +287,10 @@ namespace PaintProMax
             // создаем объект BinaryFormatter
             BinaryFormatter formatter = new BinaryFormatter();
             // получаем поток, куда будем записывать сериализованный объект
-            using (FileStream fs = new FileStream("Complex1.bmp", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("Save.bin", FileMode.OpenOrCreate))
             {
                 formatter.Serialize(fs, lines);
+                formatter.Serialize(fs, Clines);
                 formatter.Serialize(fs, rectangles);
                 formatter.Serialize(fs, сircles);
 
@@ -298,21 +305,66 @@ namespace PaintProMax
 
         private void button7_Click(object sender, EventArgs e)
         {
-            
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Bitmaps|*.bmp|jpeps|*.jpg";
-            PictureBox PictureBox1 = new PictureBox();
+            openFileDialog.Filter = "Serialized Files|*.bin"; // Измените фильтр, если у вас другой формат
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                PictureBox1.Image = Bitmap.FromFile(openFileDialog.FileName);
-                g = Graphics.FromImage(PictureBox1.Image);
-                PictureBox1.Refresh();
+                // создаем объект BinaryFormatter
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                // открываем поток для чтения
+                using (FileStream fs = new FileStream(openFileDialog.FileName, FileMode.Open))
+                {
+                    try
+                    {
+                        // Очищаем текущие списки
+                        lines.Clear();
+                        Clines.Clear();
+                        rectangles.Clear();
+                        сircles.Clear();
+
+                        // Десериализуем объекты обратно в списки
+                        lines = (List<Line>)formatter.Deserialize(fs);
+                        Clines = (List<Line>)formatter.Deserialize(fs);
+                        rectangles = (List<Rectangle>)formatter.Deserialize(fs);
+                        сircles = (List<Сircle>)formatter.Deserialize(fs);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error while loading the file: " + ex.Message);
+                    }
+                }
+
+                // Перерисовываем форму
+                this.Invalidate();
             }
 
         }
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (OnFigureSelect == DelegateMethod_CreateDrawCircle)
+            {
+                сircles.Clear();
+                this.Invalidate();
+            }
+            if (OnFigureSelect == DelegateMethod_CreateDrawRectangle)
+            {
+                rectangles.Clear();
+                this.Invalidate();
+            }
+            if (OnFigureSelect == DelegateMethod_CreateDrawLine)
+            {
+                lines.Clear();
+                this.Invalidate();
+            }
 
         }
     }
