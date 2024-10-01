@@ -12,6 +12,7 @@ namespace PaintProMax
 {
     public partial class Form1 : Form
     {
+        bool localDraw = false;
         Color Global_Color = Color.Black;
         bool isMouseDown = false;
         int i = 0;
@@ -19,31 +20,14 @@ namespace PaintProMax
         private Point lastPosition;
         private List<Line> lines = new List<Line>();
         private List<Rectangle> rectangles = new List<Rectangle>();
-        private List<Сircle> сircles = new List<Сircle>();
+         private List<Сircle> сircles = new List<Сircle>();
 
 
         public delegate void FigureHandler(int X, int Y, int X2, int Y2, Color color);
         public event FigureHandler OnFigureSelect;
 
 
-        //private Figure CreateLine(Point start, Point end, Color color)
-        //{
-        //    return new Line(start.X, start.Y, end.X, end.Y, color);
-        //}
-
-        //// Метод для создания прямоугольника
-        //private Figure CreateRectangle(Point start, Point end, Color color)
-        //{
-        //    return new Rectangle(start.X, start.Y, end.X, end.Y, color);
-        //}
-
-        //// Метод для создания круга
-        //private Figure CreateCircle(Point start, Point end, Color color)
-        //{
-        //    int radius = (int)Math.Sqrt(Math.Pow(end.X - start.X, 2) + Math.Pow(end.Y - start.Y, 2));
-        //    return new Сircle(start.X, start.Y, radius, color);
-        //}
-
+   
 
         public void DelegateMethod_CreateDrawCurveLine(int X, int Y, int X2, int Y2, Color Global_Color)
         {
@@ -85,42 +69,56 @@ namespace PaintProMax
         }
         public void DelegateMethod_CreateDrawRectangle(int X, int Y, int X2, int Y2, Color Global_Color)
         {
+
+            Rectangle rect = new Rectangle(X, Y, X2, Y2, Global_Color);
             if (isMouseDown)
             {
-                Rectangle rect = new Rectangle(X, Y, X2, Y2, Global_Color);
+                localDraw = true; // Устанавливаем в true при нажатии мыши
+                using (Graphics g = this.CreateGraphics())
+                {
+                    rect.Draw(g);  // Рисуем временный прямоугольник на форме
 
-                if (rectangles.Count != 0)
-                {
-                    rectangles.Clear();
-                    rectangles.Add(rect);
                 }
-                else
+            }
+            else
+            {
+                if (localDraw)
                 {
                     rectangles.Add(rect);
+                    this.Invalidate();
+                    localDraw = false;
                 }
             }
             this.Invalidate();
         }
         public void DelegateMethod_CreateDrawCircle(int X, int Y, int X2, int Y2, Color Global_Color)
         {
-            if (isMouseDown)
-            {
-                Сircle cir = new Сircle(
-                    X,
-                    Y,
-                    (int)Math.Sqrt(Math.Pow(X2 - X, 2) + Math.Pow(Y2 - Y2, 2)),
-                Global_Color);
 
-                if (сircles.Count != 0)
+            Сircle cir = new Сircle(X, Y,
+                (int)Math.Sqrt(Math.Pow(X2 - X, 2) + Math.Pow(Y2 - Y2, 2)),
+            Global_Color);
+
+            
+
+                if (isMouseDown)
                 {
-                    сircles.Clear();
-                    сircles.Add(cir);
+                    localDraw = true; 
+                    using (Graphics g = this.CreateGraphics())
+                    {
+                        cir.Draw(g);  
+
+                    }
                 }
                 else
                 {
-                    сircles.Add(cir);
+                    if (localDraw)
+                    {
+                        сircles.Add(cir);
+                        localDraw = false;
+                        this.Invalidate();
+                    }
                 }
-            }
+            
         }
 
         public Form1()
@@ -138,6 +136,9 @@ namespace PaintProMax
                 isMouseDown = true;
                 lastPosition = e.Location;
                 label1.Text = e.Location.ToString();
+
+              
+
             }
         }
         private void OnMouseUp(object sender, MouseEventArgs e)
@@ -149,73 +150,14 @@ namespace PaintProMax
                 this.Invalidate();
             }
         }
-        //private void OnMouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (isMouseDown)
-        //    {
-        //        // Создаем новую линию и добавляем её в список
-        //        Line line = new Line(
-        //            lastPosition.X,
-        //            lastPosition.Y,
-        //            e.Location.X,
-        //            e.Location.Y,
-        //            Color.Black);
-        //        lines.Add(line);
-
-        //        lastPosition = e.Location;
-
-        //        // Обновляем только необходимую область для перерисовки
-        //        this.Invalidate();
-        //    }
-        //}
-        //private void OnMouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (isMouseDown)
-        //    {
-        //        Line line = new Line(
-        //            lastPosition.X,
-        //            lastPosition.Y,
-        //            e.Location.X,
-        //            e.Location.Y,
-        //            Color.Black); 
-
-        //        if (lines.Count != 0)
-        //        {
-        //            lines.Clear();
-        //            lines.Add(line);
-        //        }
-        //        if (lines.Count == 0)
-        //        {
-
-        //            lines.Add(line);
-        //        }
-        //    }
-        //    this.Invalidate();
-
-        //}
-
+       
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (isMouseDown && OnFigureSelect != null)
+            if (OnFigureSelect != null)
             {
                 OnFigureSelect(lastPosition.X, lastPosition.Y, e.Location.X, e.Location.Y, Global_Color);
             }
-            //switch (statusDraw)
-            //{
-            //    case "l":
-            //        DelegateMethod_CreateDrawLine(lastPosition, e.Location, Color.Black);
-            //        break;
-            //    case "cu":
-            //        DelegateMethod_CreateDrawCurveLine(lastPosition, e.Location, Color.Black);
-            //        break;
-            //    case "r":
-            //        DelegateMethod_CreateDrawRectangle(lastPosition, e.Location, Color.Black);
-            //        break;
-            //    case "ci":
-            //        DelegateMethod_CreateDrawCircle(lastPosition, e.Location, Color.Black);
-            //        break;
-
-            //}
+       
         }
 
         protected override void OnPaint(PaintEventArgs e)
