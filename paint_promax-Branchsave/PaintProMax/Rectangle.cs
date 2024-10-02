@@ -15,7 +15,7 @@ namespace PaintProMax
         {
             this.Color = color;
         }
-        public void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             Pen pen = new Pen(this.Color);
             int left = Math.Min(X, X2);

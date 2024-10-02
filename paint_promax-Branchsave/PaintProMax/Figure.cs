@@ -8,7 +8,7 @@ using System.Drawing;
 namespace PaintProMax
 {
     [Serializable]
-    class Figure
+     class Figure
     {
         ///////////////////////
         private int x;
@@ -66,6 +66,6 @@ namespace PaintProMax
             set { color = value; } 
         }
 
-
+        public virtual void Draw(Graphics g) { }
     }
 }

@@ -8,6 +8,8 @@ using System.IO;
 using System.Drawing.Imaging;
 
 
+
+
 namespace PaintProMax
 {
     public partial class Form1 : Form
@@ -18,9 +20,10 @@ namespace PaintProMax
         int i = 0;
         private Graphics g;
         private Point lastPosition;
-        private List<Line> lines = new List<Line>();
-        private List<Rectangle> rectangles = new List<Rectangle>();
-         private List<Сircle> сircles = new List<Сircle>();
+        //private List<Line> lines = new List<Line>();
+        //private List<Rectangle> rectangles = new List<Rectangle>();
+        //private List<Сircle> сircles = new List<Сircle>();
+        private FigureList NewFigureList = new FigureList();
 
 
         public delegate void FigureHandler(int X, int Y, int X2, int Y2, Color color);
@@ -41,7 +44,8 @@ namespace PaintProMax
                     Y2,
                     Global_Color);
 
-                lines.Add(line);
+                //lines.Add(line);
+                NewFigureList.Add(line);
 
                 lastPosition = ty;
 
@@ -51,18 +55,41 @@ namespace PaintProMax
         }
         public void DelegateMethod_CreateDrawLine(int X, int Y, int X2, int Y2, Color Global_Color)
         {
+            Line line = new Line(X, Y, X2, Y2, Global_Color);
+            //if (isMouseDown)
+            //{
+                
+
+            //    if (lines.Count != 0)
+            //    {
+            //        lines.Clear();
+            //        //lines.Add(line);
+            //    }
+            //    else
+            //    {
+            //        //lines.Add(line);
+            //        NewFigureList.Add(line);
+            //    }
+            //}
+            this.Invalidate();
+
             if (isMouseDown)
             {
-                Line line = new Line(X, Y, X2, Y2, Global_Color);
+                localDraw = true; // Устанавливаем в true при нажатии мыши
+                using (Graphics g = this.CreateGraphics())
+                {
+                    line.Draw(g);  // Рисуем временный прямоугольник на форме
 
-                if (lines.Count != 0)
-                {
-                    lines.Clear();
-                    lines.Add(line);
                 }
-                else
+            }
+            else
+            {
+                if (localDraw)
                 {
-                    lines.Add(line);
+                    NewFigureList.Add(line);
+                    //rectangles.Add(rect);
+                    this.Invalidate();
+                    localDraw = false;
                 }
             }
             this.Invalidate();
@@ -84,7 +111,8 @@ namespace PaintProMax
             {
                 if (localDraw)
                 {
-                    rectangles.Add(rect);
+                    NewFigureList.Add(rect);
+                    //rectangles.Add(rect);
                     this.Invalidate();
                     localDraw = false;
                 }
@@ -113,13 +141,37 @@ namespace PaintProMax
                 {
                     if (localDraw)
                     {
-                        сircles.Add(cir);
+                        NewFigureList.Add(cir);
+                        //сircles.Add(cir);
                         localDraw = false;
                         this.Invalidate();
                     }
                 }
             
         }
+        public void DelegateMethod_eraser(int X, int Y, int X2, int Y2, Color eraserColor)
+        {
+            eraserColor = Color.White;
+            if (isMouseDown)
+            {
+                Point ty = new Point(X2, Y2);
+                Line line = new Line(
+                    X,
+                    Y,
+                    X2,
+                    Y2,
+                    eraserColor);
+
+                //lines.Add(line);
+                NewFigureList.Add(line);
+
+                lastPosition = ty;
+
+
+                this.Invalidate();
+            }
+        }
+
 
         public Form1()
         {
@@ -162,21 +214,26 @@ namespace PaintProMax
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-            foreach (var line in lines)
-            {
-                line.Draw(e.Graphics);
-                i++;
-            }
+            //base.OnPaint(e);
+            //foreach (var line in lines)
+            //{
+            //    line.Draw(e.Graphics);
+            //    i++;
+            //}
 
-            foreach (var rectangle in rectangles)
+            //foreach (var rectangle in rectangles)
+            //{
+            //    rectangle.Draw(e.Graphics);
+            //    i++;
+            //}
+            //foreach (var сircle in сircles)
+            //{
+            //    сircle.Draw(e.Graphics);
+            //    i++;
+            //}
+            foreach (var El in NewFigureList)
             {
-                rectangle.Draw(e.Graphics);
-                i++;
-            }
-            foreach (var сircle in сircles)
-            {
-                сircle.Draw(e.Graphics);
+                El.Draw(e.Graphics);
                 i++;
             }
         }
@@ -210,6 +267,10 @@ namespace PaintProMax
         {
 
         }
+        private void eraser(object sender, EventArgs e)
+        {
+            OnFigureSelect = DelegateMethod_eraser;
+        }
         void ColorSwitch(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
@@ -225,9 +286,8 @@ namespace PaintProMax
             // получаем поток, куда будем записывать сериализованный объект
             using (FileStream fs = new FileStream("Complex1.bmp", FileMode.OpenOrCreate))
             {
-                formatter.Serialize(fs, lines);
-                formatter.Serialize(fs, rectangles);
-                formatter.Serialize(fs, сircles);
+                formatter.Serialize(fs, NewFigureList);
+
 
             }
         }
@@ -256,6 +316,13 @@ namespace PaintProMax
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
 
+        }
+      
+
+        private void backButt(object sender, EventArgs e)
+        {
+            NewFigureList.UndoLastFigure();
+            this.Invalidate();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace PaintProMax
         {
             points.Add(new Point(x, y));
         }
-        public void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             if (points.Count > 1)
             {

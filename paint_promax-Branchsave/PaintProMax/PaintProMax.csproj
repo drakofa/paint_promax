@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CurveLine.cs" />
     <Compile Include="Figure.cs" />
+    <Compile Include="FigureList.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

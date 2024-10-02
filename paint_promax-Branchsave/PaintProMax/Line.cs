@@ -20,7 +20,7 @@ namespace PaintProMax
             this.Color = color; 
         }
 
-        public void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             Pen pen = new Pen(this.Color);
             g.DrawLine(pen, X, Y, X2, Y2);

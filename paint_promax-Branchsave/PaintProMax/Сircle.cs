@@ -23,7 +23,7 @@ namespace PaintProMax
             get {return radius; }
             set { radius = value; }
         }
-        public void Draw(Graphics g)
+        public override  void Draw(Graphics g)
         {
             Pen pen = new Pen(this.Color);
             g.DrawEllipse(pen, X - radius, Y - radius, radius * 2, radius * 2);
